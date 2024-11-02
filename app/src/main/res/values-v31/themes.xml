@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Project_Wachterin" parent="android:Theme.Material.Light.NoActionBar">
+        <!-- Splash screen background color -->
+        <item name="android:windowSplashScreenBackground">@color/background</item>
+
+        <!-- Drawable for the animated icon (non-circular logo) -->
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/projectwechtarin_logo</item>
+
+        <!-- Disable the circular icon mask by setting the icon background to null -->
+        <!--<item name="android:windowSplashScreenIconBackground">@null</item>-->
+
+        <!-- Splash screen animation duration -->
+        <item name="android:windowSplashScreenAnimationDuration">1000</item>
+    </style>
+</resources>
