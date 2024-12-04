@@ -24,8 +24,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sebastjanjernejjapelj.project_wachterin.func.FindMeLocation
 import com.sebastjanjernejjapelj.project_wachterin.func.IpInfo
 import com.sebastjanjernejjapelj.project_wachterin.func.LocationData
+import com.sebastjanjernejjapelj.project_wachterin.func.RequestPermissions
 import com.sebastjanjernejjapelj.project_wachterin.func.getIpInfo
 import com.sebastjanjernejjapelj.project_wachterin.func.rememberFindFuncPositionData
 import com.sebastjanjernejjapelj.project_wachterin.ui.theme.AppTypography
@@ -33,22 +35,34 @@ import com.sebastjanjernejjapelj.project_wachterin.ui.theme.Project_WachterinThe
 import com.sebastjanjernejjapelj.project_wachterin.ui.theme.secondaryLightMediumContrast
 import kotlinx.coroutines.launch
 
+
+
 @Composable
 fun FindMe(context: Context) {
     val findFuncPositionData = rememberFindFuncPositionData(context)
     var locationData by remember { mutableStateOf<LocationData?>(null) }
     var ipInfo by remember { mutableStateOf<IpInfo?>(null) }
 
-    // Create a coroutine scope to launch coroutines outside of composable functions
     val coroutineScope = rememberCoroutineScope()
 
-    // Initial fetch when the composable is first launched
-    LaunchedEffect(Unit) {
-        locationData = findFuncPositionData.getCurrentLocation()
-
-        // Fetch IP info asynchronously
+    RequestPermissions(context = context) {
         coroutineScope.launch {
-            ipInfo = getIpInfo() // Assuming getIpInfo() is implemented to fetch IP data
+            locationData = findFuncPositionData.getCurrentLocation()
+        }
+    }
+
+    // Use FindMeLocation to fetch location
+    FindMeLocation(
+        findFuncPosition = findFuncPositionData,
+        onLocationReceived = { fetchedLocation ->
+            locationData = fetchedLocation
+        }
+    )
+
+    // Fetch IP info asynchronously
+    LaunchedEffect(Unit) {
+        coroutineScope.launch {
+            ipInfo = getIpInfo()
         }
     }
 
@@ -59,12 +73,12 @@ fun FindMe(context: Context) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {
-                Text(
-                    text = "Find Me",
-                    fontSize = 30.sp,
-                    color = secondaryLightMediumContrast,
-                    style = AppTypography.displayLarge
-                )
+            Text(
+                text = "Find Me",
+                fontSize = 30.sp,
+                color = secondaryLightMediumContrast,
+                style = AppTypography.displayLarge
+            )
 
 
             Spacer(modifier = Modifier.height(5.dp))
@@ -199,6 +213,7 @@ fun FindMe(context: Context) {
         }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable

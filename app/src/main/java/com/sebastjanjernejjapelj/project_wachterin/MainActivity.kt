@@ -17,6 +17,7 @@ import com.sebastjanjernejjapelj.project_wachterin.ui.theme.Project_WachterinThe
 import android.provider.Settings
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.sebastjanjernejjapelj.project_wachterin.func.SettingsViewModel
 import com.sebastjanjernejjapelj.project_wachterin.func.data.UserViewModel
 import com.sebastjanjernejjapelj.project_wachterin.navigation.NavGraph
 
@@ -34,37 +35,46 @@ class MainActivity : ComponentActivity() {
             // Create or retrieve the UserViewModel
             val userViewModel: UserViewModel = viewModel()
 
+            // Create or retrieve the SettingsViewModel
+            val settingsViewModel: SettingsViewModel = viewModel()
+
             // Create a single instance of NavController
             val navController = rememberNavController()
 
-            // Apply the Project_WachterinTheme
-            Project_WachterinTheme {
+            // Apply the Project_WachterinTheme with the `darkMode` state from SettingsViewModel
+            Project_WachterinTheme(darkTheme = settingsViewModel.isDarkTheme) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    // Pass the NavController and UserViewModel to the NavGraph
-                    NavGraph(navController = navController, userViewModel = userViewModel)
+                    // Pass the NavController and ViewModels to the NavGraph
+                    NavGraph(
+                        navController = navController,
+                        userViewModel = userViewModel,
+                        settingsViewModel = settingsViewModel
+                    )
                 }
             }
         }
     }
 
-    private fun hasUsageStatsPermission(): Boolean {
+    fun hasUsageStatsPermission(): Boolean {
         val appOpsManager = getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
         val mode = appOpsManager.checkOpNoThrow(
             AppOpsManager.OPSTR_GET_USAGE_STATS,
-            android.os.Process.myUid(), packageName
+            android.os.Process.myUid(),
+            packageName
         )
         return mode == AppOpsManager.MODE_ALLOWED
     }
 
-    private fun requestUsageStatsPermission() {
-        Toast.makeText(this, "Please grant usage access permission", Toast.LENGTH_LONG).show()
+    fun requestUsageStatsPermission() {
+        Toast.makeText(this, "Please grant usage access to enable this feature.", Toast.LENGTH_LONG).show()
         val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
         startActivity(intent)
     }
 }
+
 
 
 

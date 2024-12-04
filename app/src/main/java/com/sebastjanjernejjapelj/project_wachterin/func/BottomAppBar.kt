@@ -1,10 +1,12 @@
 package com.sebastjanjernejjapelj.project_wachterin.func
 
 import android.os.Build
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -69,10 +71,25 @@ fun MyBottomAppBar(settingsViewModel: SettingsViewModel) {
                         .padding(16.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    FloatingActionButton(onClick = {
-                        FootPrintTracker(context, settingsViewModel.footPrint)
-                    }) {
-                        Icon(Icons.Default.Warning, contentDescription = null, tint = colorScheme.secondary)
+                    val context = LocalContext.current
+                    val iconTint = if (footPrint) colorScheme.secondary else colorScheme.error
+
+                    FloatingActionButton(
+                        onClick = {
+                            if (footPrint) {
+                                footPrintTracker(context)
+                            } else {
+                                Toast.makeText(context, "Don't worry, we respect your privacy.", Toast.LENGTH_LONG).show()
+                            }
+                        },
+                        elevation = FloatingActionButtonDefaults.elevation(8.dp),
+                        shape = CircleShape
+                    ) {
+                        Icon(
+                            Icons.Default.Warning,
+                            contentDescription = if (footPrint) "Privacy warning active" else "Privacy warning inactive",
+                            tint = iconTint
+                        )
                     }
                 }
 
@@ -108,9 +125,13 @@ fun MyBottomAppBar(settingsViewModel: SettingsViewModel) {
             }
         }
     ) { paddingValues ->
-        AppNavHost(navController = navigationController, paddingValues = paddingValues)
+        AppNavHost(navController = navigationController, paddingValues = paddingValues, settingsViewModel=settingsViewModel)
     }
 }
+
+
+
+
 
 
 

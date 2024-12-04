@@ -77,11 +77,11 @@ fun SplashScreen(navController: NavHostController) {
 fun RandomSplashText(randomNum: Int) {
     val splashText = arrayOf(
         "I pray for the safety of all good people who come to Zion, even Gentiles, but we can't expect God to do all the work.",
-        "Science and Religion aren't two exclusive things, and Atheism isn't the key to Science.",
+        "Remind those who don't believe, that the ones with faith, brought also enlightenment to this world",
         "The first gulp from the glass of natural sciences will turn you into an atheist, but at the bottom of the glass God is waiting for you.",
         "The study of God's creation is called Science...",
         "Ask, and it will be given to you; seek, and you will find; knock, and it will be opened to you.",
-        "Atheists express their rage against God although in their view, He does not exist.",
+        "It's curious how someone speaks of intellectual reasoning, yet still directs rage towards a God they believe doesn't exist.",
         "Those who misuse the word of God for selfish gain are destined to suffer God's wrath...",
         "So many have resorted to teaching with force and threat, even those who work under our Lord...",
         "My help comes from the Lord, who made heaven and earth.",
@@ -96,7 +96,7 @@ fun RandomSplashText(randomNum: Int) {
         "-Werner Heisenberg (1932)",
         "-Brother Fabius \"Cutty\" Smith",
         "-Matthew 7:7",
-        "-C. S. Lewis",
+        "-Brother Luke Lewis",
         "-Sister Amelia Berg",
         "-Sister Rosalia Nikolaev",
         "-Psalm 121:2",

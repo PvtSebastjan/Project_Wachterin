@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Project_Wachterin</string>
-    <string name="google_map_api">AIzaSyBtMOc5f2ytGyQ0-KmtAxS1r-OXsZsHylc</string>>
+    <string name="google_map_api">AIzaSyBtMOc5f2ytGyQ0-KmtAxS1r-OXsZsHylc</string>
+    <string name="privacy_message">Don\'t worry, we respect your privacy.</string>
+    <string name="footprint_message">Fetching last app usage...</string>
+
 </resources>

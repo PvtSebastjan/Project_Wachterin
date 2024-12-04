@@ -1,5 +1,6 @@
 package com.sebastjanjernejjapelj.project_wachterin.func
 
+import android.app.Activity
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
@@ -10,9 +11,10 @@ import com.sebastjanjernejjapelj.project_wachterin.pages.LoginPage
 @Composable
 fun LoginReq(viewModel: UserViewModel, onLoginSuccess: () -> Unit) {
     // Get the user info directly from the ViewModel
-    val userInfo = viewModel.userList.firstOrNull() // Assuming you want to check against the first user
+    val userInfo = viewModel.userList.firstOrNull()
 
-    val context = LocalContext.current.applicationContext
+    val context = LocalContext.current // Use context consistently
+
     LoginPage(
         onLoginClick = { username, password ->
             if (userInfo?.let { checkInput(username, password, it) } == true) {
@@ -21,11 +23,15 @@ fun LoginReq(viewModel: UserViewModel, onLoginSuccess: () -> Unit) {
             } else {
                 Toast.makeText(context, "Invalid Username or Password", Toast.LENGTH_SHORT).show()
             }
+        },
+        onExitClick = {
+            // Exit the activity when clicked
+            (context as? Activity)?.finish()
         }
     )
 }
 
-// Update the checkInput function to receive userInfo
+// Updated checkInput function to compare credentials
 private fun checkInput(username: String, password: String, userInfo: UserDataFormat): Boolean {
     return username == userInfo.userInfoName && password == userInfo.userInfoPassword
 }

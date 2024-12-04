@@ -6,7 +6,7 @@
         <item name="android:windowSplashScreenBackground">@color/background</item>
 
         <!-- Drawable for the animated icon (non-circular logo) -->
-        <item name="android:windowSplashScreenAnimatedIcon">@drawable/projectwechtarin_logo</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/jc_logo</item>
 
         <!-- Disable the circular icon mask by setting the icon background to null -->
         <!--<item name="android:windowSplashScreenIconBackground">@null</item>-->

@@ -16,16 +16,7 @@ class UserViewModel : ViewModel() {
             userInfoId = "#117524",
             userInfoEmail = "cutty.admin.net",
             userInfoPhoneNumber = "505-231-556"
-        ),
-        UserDataFormat(
-            userInfoName = "John Doe",
-            userInfoPassword = "password123",
-            userInfoProfilePic = R.drawable.projectwechtarin_logo,
-            userInfoId = "#112233",
-            userInfoEmail = "johndoe@example.com",
-            userInfoPhoneNumber = "123-456-789"
         )
-        // Add more users here as needed
     ))
 
     // State to keep track of the currently selected user (default to the first user)
@@ -51,6 +42,7 @@ class UserViewModel : ViewModel() {
         }
     }
 }
+
 
 
 

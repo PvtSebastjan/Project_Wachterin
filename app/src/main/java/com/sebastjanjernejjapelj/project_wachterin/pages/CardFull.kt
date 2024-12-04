@@ -23,7 +23,13 @@ import com.sebastjanjernejjapelj.project_wachterin.ui.theme.AppTypography
 import com.sebastjanjernejjapelj.project_wachterin.ui.theme.Project_WachterinTheme
 
 @Composable
-fun CardFull(titleOfCard: String, dateOfCard: String, authorOfCard: String, exertOfCard: String, navController: NavController) {
+fun CardFull(
+    titleOfCard: String,
+    dateOfCard: String,
+    authorOfCard: String,
+    exertOfCard: String,
+    navController: NavController
+) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = colorScheme.background // Set background color for the entire page
@@ -34,7 +40,7 @@ fun CardFull(titleOfCard: String, dateOfCard: String, authorOfCard: String, exer
                 .padding(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Clear Icon at the top-left
+            // Clear Icon at the top-left (Back button)
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -47,7 +53,7 @@ fun CardFull(titleOfCard: String, dateOfCard: String, authorOfCard: String, exer
                     modifier = Modifier.align(Alignment.CenterVertically)
                 ) {
                     Icon(
-                        Icons.Default.Clear,
+                        imageVector = Icons.Default.Clear,
                         contentDescription = "Go back",
                         modifier = Modifier.size(26.dp),
                         tint = colorScheme.onSurface
@@ -137,6 +143,7 @@ fun CardFull(titleOfCard: String, dateOfCard: String, authorOfCard: String, exer
         }
     }
 }
+
 
 
 @Preview(showBackground = true)

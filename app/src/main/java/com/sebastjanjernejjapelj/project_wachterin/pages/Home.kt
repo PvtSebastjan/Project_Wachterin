@@ -1,6 +1,8 @@
 package com.sebastjanjernejjapelj.project_wachterin.pages
 
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -16,27 +18,30 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.rememberNavController
 import com.sebastjanjernejjapelj.project_wachterin.R
+import com.sebastjanjernejjapelj.project_wachterin.func.LambdaMessage
+import com.sebastjanjernejjapelj.project_wachterin.func.data.getNotificationsList
+import com.sebastjanjernejjapelj.project_wachterin.func.filterNotificationsByDate
 import com.sebastjanjernejjapelj.project_wachterin.ui.theme.AppTypography
 import com.sebastjanjernejjapelj.project_wachterin.ui.theme.secondaryLightMediumContrast
 import com.sebastjanjernejjapelj.project_wachterin.ui.theme.tertiaryContainerDark
 import com.sebastjanjernejjapelj.project_wachterin.ui.theme.tertiaryContainerDarkHighContrast
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Home() {
-    val newMessageHasArrived by remember { mutableStateOf(false) }
 
     LazyColumn(
         modifier = Modifier
@@ -73,32 +78,14 @@ fun Home() {
         }
 
 
-
         // Incoming Messages Section with Background
         item {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(colorScheme.tertiary,RoundedCornerShape(8.dp))
-                    .border(
-                        2.dp,
-                        colorScheme.onSurfaceVariant,
-                        shape = RoundedCornerShape(8.dp)
-                    )
-                    .padding(15.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                SectionTitle(title = "Incoming messages")
-                if (newMessageHasArrived) {
-                    // TODO: Handle new message
-                } else {
-                    Text(
-                        text = "No new message",
-                        fontSize = 15.sp
-                    )
-                }
-            }
+            val notifications = getNotificationsList() // Function from CardInfo.kt
+
+            LambdaMessage(
+                notifications = notifications,
+                filterByDate = ::filterNotificationsByDate
+            )
         }
 
         // About Section with Background
@@ -236,5 +223,16 @@ fun SupporterRow(supporter1: String, supporter2: String) {
     ) {
         Text(text = supporter1, fontSize = 15.sp, modifier = Modifier.weight(1f))
         Text(text = supporter2, fontSize = 15.sp, modifier = Modifier.weight(1f))
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+@Preview(showBackground = true)
+@Composable
+fun HomePreview() {
+    MaterialTheme {
+        val navController = rememberNavController()
+
+        Home()
     }
 }

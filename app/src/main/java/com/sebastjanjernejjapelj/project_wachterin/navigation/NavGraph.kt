@@ -11,6 +11,7 @@ import com.sebastjanjernejjapelj.project_wachterin.func.MyBottomAppBar
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.sebastjanjernejjapelj.project_wachterin.func.LoginReq
+import com.sebastjanjernejjapelj.project_wachterin.func.SettingBoxFunction
 import com.sebastjanjernejjapelj.project_wachterin.func.SettingsViewModel
 import com.sebastjanjernejjapelj.project_wachterin.func.data.UserViewModel
 import com.sebastjanjernejjapelj.project_wachterin.pages.CardFull
@@ -25,7 +26,7 @@ object Routes {
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun NavGraph(navController: NavHostController, userViewModel: UserViewModel) {
+fun NavGraph(navController: NavHostController, userViewModel: UserViewModel,settingsViewModel: SettingsViewModel) {
     val settingsViewModel: SettingsViewModel = viewModel()
     NavHost(navController = navController, startDestination = Routes.SPLASH) {
         composable(Routes.SPLASH) {
@@ -42,6 +43,9 @@ fun NavGraph(navController: NavHostController, userViewModel: UserViewModel) {
 
         composable(Routes.HOME) {
             HomeScreen(settingsViewModel)
+        }
+        composable("settings") {
+            SettingBoxFunction(settingsViewModel)
         }
 
         composable(
@@ -68,4 +72,5 @@ fun NavGraph(navController: NavHostController, userViewModel: UserViewModel) {
 fun HomeScreen(settingsViewModel: SettingsViewModel) {
     MyBottomAppBar(settingsViewModel)
 }
+
 

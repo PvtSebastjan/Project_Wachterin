@@ -395,29 +395,16 @@ val unspecified_scheme = ColorFamily(
 
 @Composable
 fun Project_WachterinTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = true,
-    content: @Composable() () -> Unit
+    darkTheme: Boolean = isSystemInDarkTheme(), // Default to system theme if not specified
+    content: @Composable () -> Unit
 ) {
-    val settingsViewModel: SettingsViewModel = viewModel()
-    val useDarkTheme = settingsViewModel.lodMode
-
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (useDarkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-
-        useDarkTheme -> darkScheme
-        else -> lightScheme
-    }
+    val colorScheme = if (darkTheme) darkScheme else lightScheme
 
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
             window.statusBarColor = colorScheme.primary.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightNavigationBars = useDarkTheme
         }
     }
 
@@ -427,5 +414,6 @@ fun Project_WachterinTheme(
         content = content
     )
 }
+
 
 

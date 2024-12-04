@@ -21,43 +21,51 @@ import androidx.navigation.navArgument
 import com.sebastjanjernejjapelj.project_wachterin.func.SettingsViewModel
 import com.sebastjanjernejjapelj.project_wachterin.func.data.UserViewModel
 import com.sebastjanjernejjapelj.project_wachterin.pages.CardFull
+import com.sebastjanjernejjapelj.project_wachterin.ui.theme.Project_WachterinTheme
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun AppNavHost(navController: NavHostController, paddingValues: PaddingValues) {
-    val userViewModel: UserViewModel = viewModel()
-    val settingsViewModel: SettingsViewModel = viewModel()
-    val context = LocalContext.current // Retrieve the current context here
+fun AppNavHost(
+    navController: NavHostController,
+    paddingValues: PaddingValues,
+    settingsViewModel: SettingsViewModel // Pass the SettingsViewModel as a parameter
+) {
+    // Wrap the content with the theme
+    Project_WachterinTheme(darkTheme = settingsViewModel.isDarkTheme) {
+        val userViewModel: UserViewModel = viewModel()
+        val context = LocalContext.current // Retrieve the current context here
 
-    NavHost(
-        navController = navController,
-        startDestination = Screens.Home.screen,
-        modifier = Modifier.padding(paddingValues) // Apply padding using Modifier.padding
-    ) {
-        composable(Screens.Home.screen) { Home() }
-        composable(Screens.FindMe.screen) { FindMe(context = context) } // Use context here
-        composable(Screens.Notification.screen) { Notifications(navController = navController, settingsViewModel = settingsViewModel) }
-        composable(Screens.User.screen) {
-            User(navController = navController, viewModel = userViewModel,settingsViewModel = settingsViewModel)
-        }
-        composable(
-            route = "cardFull/{titleOfCard}/{dateOfCard}/{authorOfCard}/{exertOfCard}",
-            arguments = listOf(
-                navArgument("titleOfCard") { type = NavType.StringType },
-                navArgument("dateOfCard") { type = NavType.StringType },
-                navArgument("authorOfCard") { type = NavType.StringType },
-                navArgument("exertOfCard") { type = NavType.StringType }
-            )
-        ) { backStackEntry ->
-            CardFull(
-                titleOfCard = backStackEntry.arguments?.getString("titleOfCard") ?: "",
-                dateOfCard = backStackEntry.arguments?.getString("dateOfCard") ?: "",
-                authorOfCard = backStackEntry.arguments?.getString("authorOfCard") ?: "",
-                exertOfCard = backStackEntry.arguments?.getString("exertOfCard") ?: "",
-                navController = navController
-            )
+        NavHost(
+            navController = navController,
+            startDestination = Screens.Home.screen,
+            modifier = Modifier.padding(paddingValues) // Apply padding using Modifier.padding
+        ) {
+            composable(Screens.Home.screen) { Home() }
+            composable(Screens.FindMe.screen) { FindMe(context = context) } // Use context here
+            composable(Screens.Notification.screen) {
+                Notifications(navController = navController, settingsViewModel = settingsViewModel,  userViewModel= userViewModel)
+            }
+            composable(Screens.User.screen) {
+                User(navController = navController, viewModel = userViewModel, settingsViewModel = settingsViewModel)
+            }
+            composable(
+                route = "cardFull/{titleOfCard}/{dateOfCard}/{authorOfCard}/{exertOfCard}",
+                arguments = listOf(
+                    navArgument("titleOfCard") { type = NavType.StringType },
+                    navArgument("dateOfCard") { type = NavType.StringType },
+                    navArgument("authorOfCard") { type = NavType.StringType },
+                    navArgument("exertOfCard") { type = NavType.StringType }
+                )
+            ) { backStackEntry ->
+                CardFull(
+                    titleOfCard = backStackEntry.arguments?.getString("titleOfCard") ?: "",
+                    dateOfCard = backStackEntry.arguments?.getString("dateOfCard") ?: "",
+                    authorOfCard = backStackEntry.arguments?.getString("authorOfCard") ?: "",
+                    exertOfCard = backStackEntry.arguments?.getString("exertOfCard") ?: "",
+                    navController = navController
+                )
+            }
+
         }
     }
 }
-
-
